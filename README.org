@@ -1,0 +1,52 @@
+#+TITLE: GitHub to Codeberg Migration Script
+#+AUTHOR: Rahul Martim Juliato
+#+EMAIL: rahul.juliato@gmail.com
+#+OPTIONS: toc:nil
+
+* Overview
+
+This script automates the migration of GitHub repositories to
+Codeberg. It allows you to seamlessly transfer your projects from
+GitHub to Codeberg while preserving their metadata, such as
+descriptions and access permissions.
+
+* Features
+
+- Migrate all or selected repositories from GitHub to Codeberg.
+- Customizable prefix for repository descriptions.
+- Supports pagination for fetching large numbers of repositories.
+- Error handling for repository migration failures.
+
+* Usage
+
+1. **Configure User Settings:**
+   - Open the script file (~migrate_repositories.sh~) in a text editor.
+   - Update the user configuration section with your GitHub and
+     Codeberg credentials.
+   - Optionally, define the repositories you want to migrate by adding
+     their names to the ~REPOSITORIES~ array.
+
+2. **Install Dependencies:**
+   - Ensure that ~curl~ and ~jq~ are installed on your system.
+     - On Debian/Ubuntu: ~sudo apt install curl jq~
+     - On macOS with Homebrew: ~brew install curl jq~
+
+3. **Run the Script:**
+   - Execute the script by running ~./migrate_repositories.sh~ in your terminal.
+   - Follow the on-screen instructions to proceed with the migration.
+   - Press ENTER to start the migration process.
+
+4. **Monitor Progress:**
+   - The script will display information about the migration progress,
+     including successful migrations and any errors encountered.
+
+5. **Review Results:**
+   - Once the migration is complete, review the results to ensure all
+     desired repositories have been migrated successfully.
+
+* Requirements
+
+- Bash shell
+- curl
+- jq (JSON processor)
+
