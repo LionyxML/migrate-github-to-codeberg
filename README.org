@@ -17,6 +17,17 @@ descriptions and access permissions.
 - Supports pagination for fetching large numbers of repositories.
 - Error handling for repository migration failures.
 
+* Limitations
+
+Due to the complex nature of both Github and Codeberg apis, it was a
+design choice for this script to omit several features like:
+- distinction between forks and original repositories
+- wiki
+- pull requests
+- avatars for projects
+
+...and so on. Please modify this script to your own needs.
+
 * Usage
 
 ** Configure User Settings
@@ -50,3 +61,56 @@ descriptions and access permissions.
 - curl
 - jq (JSON processor)
 
+
+* Screenshots (in text mode)
+
+#+BEGIN_SRC txt
+    ----------------------------------------------
+    Welcome to Github to Codeberg Migration Script
+    ----------------------------------------------
+
+    User on Github          : LionyxML
+    User on Codeberg        : LionyxML
+    Using description prefix: [MIRROR] 
+    Migrating repo          : aa
+    Migrating repo          : dotfiles
+    Migrating repo          : flycheck
+    Migrating repo          : my_emacs_config
+
+    If you wish to change this, abort and change this script.
+
+
+
+    Press ENTER to continue, C-c to abort.
+
+
+>>> Working...
+>>> Migrating: aa... Error! Already exists on Codeberg.
+>>> Migrating: flycheck... Success!
+>>> Migration complete!
+#+END_SRC
+
+
+#+BEGIN_SRC txt
+    ----------------------------------------------
+    Welcome to Github to Codeberg Migration Script
+    ----------------------------------------------
+
+    User on Github          : LionyxML
+    User on Codeberg        : LionyxML
+    Using description prefix: [MIRROR] 
+    Migrating repo          : all
+
+    If you wish to change this, abort and change this script.
+
+
+
+    Press ENTER to continue, C-c to abort.
+
+
+>>> Working...
+>>> Migrating: 100_computer_science_concepts... Error! Already exists on Codeberg.
+>>> Migrating: 10_design_patterns... Error! Already exists on Codeberg.
+>>> Migrating: aa... Error! Already exists on Codeberg.
+
+#+END_SRC
