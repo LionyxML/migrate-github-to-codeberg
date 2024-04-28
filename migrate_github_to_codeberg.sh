@@ -6,6 +6,7 @@
 # Author: Rahul Martim Juliato
 # Email: rahul.juliato@gmail.com
 # License: GPL-3.0
+# Version: 0.1.1
 #
 # This script migrates GitHub repositories to Codeberg.
 #
@@ -64,13 +65,15 @@ CODEBERG_TOKEN="YourCodebergToken"
 
 REPOSITORIES=()
 # REPOSITORIES=(
-#     "aa"
-#     "flycheck"
-#     "my_emacs_config"
+#     "repository1"
+#     "repository2"
+#     "repository3"
 # )
 
 # Custom prefix for description
-DESCRIPTION_PREFIX="[MIRROR] "
+DESCRIPTION_PREFIX=""
+# DESCRIPTION_PREFIX="[Secondary] - "
+# DESCRIPTION_PREFIX="Draft: "
 
 
 # UTILS FUNCTIONS
@@ -135,16 +138,16 @@ for ((github_page_counter = 1; github_page_counter <= github_needed_pages; githu
         repo_description="$DESCRIPTION_PREFIX$(echo "$row" | jq -r '.description')"
         repo_is_private=$(echo "$row" | jq -r '.private')
 
-        printf ">>> Migrating: $repo_name..."
+        printf ">>> Migrating: $repo_name ($( [ "$repo_is_private" = "true" ] && echo "private" || echo "public" ))..."
 
         response=$(curl -s -f -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: token $CODEBERG_TOKEN" -d '{
-            "auth_username": "'"$CODEBERG_USERNAME"'",
-            "auth_token": "'"$CODEBERG_TOKEN"'",
+            "auth_username": "'"$GITHUB_USERNAME"'",
+            "auth_token": "'"$GITHUB_TOKEN"'",
             "clone_addr": "'"$repo_clone_url"'",
             "private": '$repo_is_private',
             "repo_name": "'"$repo_name"'",
             "repo_owner": "'"$CODEBERG_USERNAME"'",
-            "service": "git",
+            "service": "github",
             "description": "'"$repo_description"'"
         }' "https://codeberg.org/api/v1/repos/migrate")
 
