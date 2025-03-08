@@ -14,6 +14,7 @@ descriptions and access permissions.
 
 - Migrate all or selected repositories from GitHub to Codeberg.
 - Customizable prefix for repository descriptions.
+- Customizable filter for repository owners.
 - Supports pagination for fetching large numbers of repositories.
 - Error handling for repository migration failures.
 
@@ -36,6 +37,8 @@ design choice for this script to omit several features like:
      Codeberg credentials.
    - Optionally, define the repositories you want to migrate by adding
      their names to the ~REPOSITORIES~ array.
+   - Optionally, define the owners of the repositories that you want to
+     migrate by adding their usernames to the ~OWNERS~ array.
 
 ** Install Dependencies
    - Ensure that ~curl~ and ~jq~ are installed on your system.
@@ -71,7 +74,8 @@ design choice for this script to omit several features like:
 
     User on Github          : LionyxML
     User on Codeberg        : LionyxML
-    Using description prefix: [MIRROR] 
+    Using description prefix: [MIRROR]
+    Migrating repos owned by: all users
     Migrating repo          : aa
     Migrating repo          : dotfiles
     Migrating repo          : flycheck
@@ -98,7 +102,8 @@ design choice for this script to omit several features like:
 
     User on Github          : LionyxML
     User on Codeberg        : LionyxML
-    Using description prefix: [MIRROR] 
+    Using description prefix: [MIRROR]
+    Migrating repos owned by: LionyxML
     Migrating repo          : all
 
     If you wish to change this, abort and change this script.

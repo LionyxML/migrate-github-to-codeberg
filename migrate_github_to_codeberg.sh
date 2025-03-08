@@ -70,6 +70,16 @@ REPOSITORIES=()
 #     "repository3"
 # )
 
+# Define the OWNERS array with specific user names whose repositories you want to migrate
+# Leave it blank so you migrate ALL repositories. Create a one per line list
+# if you want to select the repositories to migrate.
+
+OWNERS=()
+# OWNERS=(
+#     "owner1"
+#     "owner2"
+# )
+
 # Custom prefix for description
 DESCRIPTION_PREFIX=""
 # DESCRIPTION_PREFIX="[Secondary] - "
@@ -100,6 +110,11 @@ printf "\n    ----------------------------------------------\n"
 printf "\n    User on Github          : $GITHUB_USERNAME"
 printf "\n    User on Codeberg        : $CODEBERG_USERNAME"
 printf "\n    Using description prefix: $DESCRIPTION_PREFIX"
+if [ ${#OWNERS[@]} -eq 0 ]; then
+    printf "\n    Migrating repos owned by: all users"
+else
+    printf "\n    Migrating repos owned by: %s" "${OWNERS[@]}"
+fi
 if [ ${#REPOSITORIES[@]} -eq 0 ]; then
     printf "\n    Migrating repo          : all"
 else
@@ -134,11 +149,19 @@ for ((github_page_counter = 1; github_page_counter <= github_needed_pages; githu
             continue
         fi
 
+        repo_owner=$(echo "$row" | jq -r '.owner.login')
+        # Skips current processing repo if
+        #                                 A) it is not owned by a targeted user
+        #                                 B) no specific users are targeted
+        if ! array_contains OWNERS "$repo_owner" && [ ${#OWNERS[@]} -ne 0 ]; then
+          continue
+        fi
+
         repo_clone_url=$(echo "$row" | jq -r '.clone_url')
         repo_description="$DESCRIPTION_PREFIX$(echo "$row" | jq -r '.description')"
         repo_is_private=$(echo "$row" | jq -r '.private')
 
-        printf ">>> Migrating: $repo_name ($( [ "$repo_is_private" = "true" ] && echo "private" || echo "public" ))..."
+        printf ">>> Migrating: $repo_name ($( [ "$repo_is_private" = "true" ] && echo "private" || echo "public" ))...\n"
 
         response=$(curl -s -f -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: token $CODEBERG_TOKEN" -d '{
             "auth_username": "'"$GITHUB_USERNAME"'",
