@@ -32,7 +32,7 @@ design choice for this script to omit several features like:
 * Usage
 
 ** Configure User Settings
-   - Open the script file (~migrate_repositories.sh~) in a text editor.
+   - Open the script file (~migrate_github_to_codeberg.sh~) in a text editor.
    - Update the user configuration section with your GitHub and
      Codeberg credentials.
    - Optionally, define the repositories you want to migrate by adding
